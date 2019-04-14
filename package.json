@@ -1,7 +1,7 @@
 {
-  "name": "joycon-playground",
+  "name": "ns-joycon",
   "version": "1.0.0",
-  "description": "",
+  "description": "Extract data from connected Jon-Con of Nintendo Switch.",
   "main": "index.js",
   "scripts": {
     "start": "ts-node index.ts",
