@@ -2,7 +2,7 @@
 
 ```shell
 npm install
-npx start
+npm start
 ```
 
 ## Extract data

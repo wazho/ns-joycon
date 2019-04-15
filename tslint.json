@@ -1,0 +1,40 @@
+{
+  "extends": "tslint:latest",
+  "rules": {
+    "linebreak-style": [
+      true,
+      "LF"
+    ],
+    "max-classes-per-file": false,
+    "max-line-length": false,
+    "member-ordering": [
+      true,
+      {
+        "order": "fields-first"
+      }
+    ],
+    "no-implicit-dependencies": false,
+    "no-submodule-imports": false,
+    "no-switch-case-fall-through": true,
+    "object-literal-key-quotes": false,
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "one-variable-per-declaration": false,
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "radix": false,
+    "space-before-function-paren": [
+      true,
+      {
+        "anonymous": false,
+        "asyncArrow": "always",
+        "constructor": "never",
+        "method": "never",
+        "named": "never"
+      }
+    ],
+    "trailing-comma": false
+  }
+}
