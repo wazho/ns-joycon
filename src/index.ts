@@ -1,3 +1,4 @@
+import { inspect } from 'util';
 import { HID, Device, devices as hidDevices } from 'node-hid';
 
 const devices = hidDevices();
@@ -69,19 +70,47 @@ function addJoyConListener(device: Device, joycon: HID) {
                 if (inputReportID === 0x30) {
                     packet = {
                         ...packet,
-                        acceleratorX: data.slice(13, 15), // index 13,14
-                        acceleratorY: data.slice(15, 17), // index 15,16
-                        acceleratorZ: data.slice(17, 19), // index 17,18
-                        gyroscope1: data.slice(19, 21), // index 19,20
-                        gyroscope2: data.slice(21, 23), // index 21,22
-                        gyroscope3: data.slice(23, 25), // index 23,24
+                        accelerometers: [
+                            {
+                                x: data.slice(13, 15), // index 13,14
+                                y: data.slice(15, 17), // index 15,16
+                                z: data.slice(17, 19), // index 17,18
+                            },
+                            {
+                                x: data.slice(25, 27), // index 25,26
+                                y: data.slice(27, 29), // index 27,28
+                                z: data.slice(29, 31), // index 29,30
+                            },
+                            {
+                                x: data.slice(37, 39), // index 37,38
+                                y: data.slice(39, 41), // index 39,40
+                                z: data.slice(41, 43), // index 41,42
+                            },
+                        ],
+                        gyroscopes: [
+                            [
+                                data.slice(19, 21), // index 19,20
+                                data.slice(21, 23), // index 21,22
+                                data.slice(23, 25), // index 23,24
+                            ],
+                            [
+                                data.slice(31, 33), // index 31,32
+                                data.slice(33, 35), // index 33,34
+                                data.slice(35, 37), // index 35,36
+                            ],
+                            [
+                                data.slice(43, 45), // index 43,44
+                                data.slice(45, 47), // index 45,46
+                                data.slice(47, 49), // index 47,48
+                            ],
+                        ],
                     };
                 }
                 break;
             }
         }
 
-        console.log(product, packet);
+        console.log(product, inspect(packet, { showHidden: false, depth: null }));
     });
 
     joycon.on('error', (data) => {
