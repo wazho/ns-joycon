@@ -2,7 +2,9 @@ This project is an implementation from [dekuNukem/Nintendo_Switch_Reverse_Engine
 
 ## Quick start
 
-Connect your Joy-Con(s) using bluetooth with PC (currently Linux only). And then execute commands below.
+Connect your Joy-Con(s) using bluetooth with PC (currently Linux only).
+
+And then execute commands below.
 
 ```shell
 npm install
