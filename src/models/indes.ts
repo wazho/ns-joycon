@@ -54,12 +54,15 @@ interface IStandardInputReport {
 };
 
 export type Accelerometer = {
-    x: string[];
-    y: string[];
-    z: string[];
+    x: IPacketBuffer & { acc: number };
+    y: IPacketBuffer & { acc: number };
+    z: IPacketBuffer & { acc: number };
 };
 
-export type Gyroscope = string[][];
+export type Gyroscope = Array<IPacketBuffer & {
+    dps: number;
+    rps: number;
+}>;
 
 export interface IInputReport0x21 extends IStandardInputReport {
     ack: IPacketBuffer;
@@ -69,6 +72,17 @@ export interface IInputReport0x21 extends IStandardInputReport {
 export interface IInputReport0x30 extends IStandardInputReport {
     accelerometers: Accelerometer[];
     gyroscopes: Gyroscope[];
+    actualAccelerometer: {
+        acc: {
+            x: number;
+            y: number;
+            z: number;
+        };
+    };
+    actualGyroscope: {
+        dps: number[];
+        rps: number[];
+    };
 };
 
 export interface IInputReport0x3f {
