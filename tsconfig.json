@@ -18,6 +18,10 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "declaration": true,
-    "declarationDir": "./types"
+    "declarationDir": "./types",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/typings/**"
+    ]
   }
 }
