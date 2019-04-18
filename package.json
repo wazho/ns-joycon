@@ -1,6 +1,6 @@
 {
   "name": "ns-joycon",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Extract data from connected Jon-Con of Nintendo Switch.",
   "author": "Ze-Hao Wang (Salmon)",
   "repository": {
