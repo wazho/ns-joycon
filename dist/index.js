@@ -38,41 +38,31 @@ function addJoyConHandler(joycon, callback) {
         };
         switch (inputReportID) {
             case 0x3f: {
-                packet = {
-                    ...packet,
-                    buttonStatus: {
+                packet = Object.assign({}, packet, { buttonStatus: {
                         _raw: rawData.slice(1, 3),
                         _hex: data.slice(1, 3),
-                    },
-                    analogStick: {
+                    }, analogStick: {
                         _raw: rawData.slice(3, 4),
                         _hex: data.slice(3, 4),
-                    },
-                    filter: {
+                    }, filter: {
                         _raw: rawData.slice(4),
                         _hex: data.slice(4),
-                    },
-                };
+                    } });
                 break;
             }
             case 0x21:
             case 0x30: {
-                packet = {
-                    ...packet,
-                    timer: {
+                packet = Object.assign({}, packet, { timer: {
                         _raw: rawData.slice(1, 2),
                         _hex: data.slice(1, 2),
-                    },
-                    batteryLevel: {
+                    }, batteryLevel: {
                         _raw: rawData.slice(2, 3),
                         _hex: data[2][0],
                         level: calculateBatteryLevel(data[2][0]),
-                    },
-                    connectionInfo: {
+                    }, connectionInfo: {
                         _raw: rawData.slice(2, 3),
                         _hex: data[2][1],
-                    },
-                    buttonStatus: {
+                    }, buttonStatus: {
                         _raw: rawData.slice(3, 6),
                         _hex: data.slice(3, 6),
                         // Byte 3 (Right Joy-Con)
@@ -100,36 +90,28 @@ function addJoyConHandler(joycon, callback) {
                         home: Boolean(0x10 & rawData[4]),
                         caputure: Boolean(0x20 & rawData[4]),
                         chargingGrip: Boolean(0x80 & rawData[4]),
-                    },
-                    analogStickLeft: {
+                    }, analogStickLeft: {
                         _raw: rawData.slice(6, 9),
                         _hex: data.slice(6, 9),
                         horizontal: rawData[6] | ((rawData[7] & 0xF) << 8),
                         vertical: (rawData[7] >> 4) | (rawData[8] << 4),
-                    },
-                    analogStickRight: {
+                    }, analogStickRight: {
                         _raw: rawData.slice(9, 12),
                         _hex: data.slice(9, 12),
                         horizontal: rawData[9] | ((rawData[10] & 0xF) << 8),
                         vertical: (rawData[10] >> 4) | (rawData[11] << 4),
-                    },
-                    vibrator: {
+                    }, vibrator: {
                         _raw: rawData.slice(12, 13),
                         _hex: data.slice(12, 13),
-                    },
-                };
+                    } });
                 if (inputReportID === 0x21) {
-                    packet = {
-                        ...packet,
-                        ack: {
+                    packet = Object.assign({}, packet, { ack: {
                             _raw: rawData.slice(13, 14),
                             _hex: data.slice(13, 14),
-                        },
-                        replySubcommand: {
+                        }, replySubcommand: {
                             _raw: rawData.slice(14, 15),
                             _hex: data.slice(14, 15),
-                        },
-                    };
+                        } });
                 }
                 if (inputReportID === 0x30) {
                     const accelerometers = [
@@ -250,18 +232,13 @@ function addJoyConHandler(joycon, callback) {
                     const actualAcc = calculateActualAccelerometer(accelerometers.map(a => [a.x.acc, a.y.acc, a.z.acc]));
                     const actualDPS = calculateActualGyroscope(gyroscopes.map(g => g.map(v => v.dps)));
                     const actualRPS = calculateActualGyroscope(gyroscopes.map(g => g.map(v => v.rps)));
-                    packet = {
-                        ...packet,
-                        accelerometers,
-                        gyroscopes,
-                        actualAccelerometer: {
+                    packet = Object.assign({}, packet, { accelerometers,
+                        gyroscopes, actualAccelerometer: {
                             acc: actualAcc,
-                        },
-                        actualGyroscope: {
+                        }, actualGyroscope: {
                             dps: actualDPS,
                             rps: actualRPS,
-                        },
-                    };
+                        } });
                 }
                 break;
             }
