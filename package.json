@@ -2,7 +2,7 @@
   "name": "ns-joycon",
   "version": "0.1.3",
   "description": "Extract data from connected Jon-Con of Nintendo Switch.",
-  "author": "Ze-Hao Wang (Salmon)",
+  "author": "Ze-Hao Wang (Salmon) <salmon.zh.tw@gmail.com> (https://salmon.tw)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wazho/ns-joycon.git"
@@ -10,23 +10,31 @@
   "bugs": {
     "url": "https://github.com/wazho/ns-joycon/issues"
   },
-  "license": "ISC",
+  "license": "MIT",
+  "keywords": [
+    "nintendo",
+    "switch",
+    "joycon"
+  ],
   "main": "dist/index.js",
   "scripts": {
     "build": "shx rm -rf dist types && tsc",
     "start": "node dist/sample.js",
     "dev": "ts-node src/sample.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "dependencies": {
     "lodash": "^4.17.11",
     "node-hid": "^0.7.7"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.11",
     "@types/lodash": "^4.14.123",
     "@types/node": "^11.13.4",
     "@types/node-hid": "^0.7.0",
+    "jest": "^24.7.1",
     "shx": "^0.3.2",
+    "ts-jest": "^24.0.2",
     "ts-node": "^8.0.3",
     "typescript": "^3.4.3"
   },

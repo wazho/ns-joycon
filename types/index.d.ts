@@ -1,5 +1,5 @@
 import { HID, Device } from 'node-hid';
-import { InputReport } from './models/indes';
+import { InputReport } from './models/';
 export declare function findDevices(): {
     joyconDevices: Device[];
     proControllerDevices: Device[];

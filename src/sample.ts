@@ -9,7 +9,7 @@ const joycons = joyconDevices.map((device) => ({
 
 joycons.forEach(({ device, hid }) => {
     JoyCon.addJoyConHandler(hid, (packet) => {
-        console.log(packet);
+        console.log(JSON.stringify(packet, null, 2));
     });
     JoyCon.enableJoyConIMU(hid);
 });

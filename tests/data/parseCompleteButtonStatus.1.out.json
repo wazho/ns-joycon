@@ -1,0 +1,36 @@
+{
+  "_raw": {
+    "type": "Buffer",
+    "data": [
+      10,
+      16,
+      0
+    ]
+  },
+  "_hex": [
+    "0a",
+    "10",
+    "00"
+  ],
+  "y": false,
+  "x": true,
+  "b": false,
+  "a": true,
+  "r": false,
+  "zr": false,
+  "down": false,
+  "up": false,
+  "right": false,
+  "left": false,
+  "l": false,
+  "zl": false,
+  "sr": false,
+  "sl": false,
+  "minus": false,
+  "plus": false,
+  "rightStick": false,
+  "leftStick": false,
+  "home": true,
+  "caputure": false,
+  "chargingGrip": false
+}
