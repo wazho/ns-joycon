@@ -212,7 +212,7 @@ Average of 3 times **accelerometers**.
 }
 ```
 
-### [Extra] actual Gyroscope
+### [Extra] Actual Gyroscope
 
 Average of 3 times **gyroscopes**.
 
