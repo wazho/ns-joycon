@@ -4,14 +4,33 @@ This package parses buffer stream from HID, and extracts the data from accelerom
 
 ## Quick start
 
-Connect your Joy-Con(s) using bluetooth with PC (currently Linux only).
-
-And then execute commands below.
+### Installation
 
 ```shell
-npm install
-# Root permission necessary.
-npm start
+npm install ns-joycon
+```
+
+### Usage
+
+Connect your Joy-Con(s) using bluetooth with PC (currently Linux only).
+
+And then execute program below.
+
+```typescript
+import * as JoyCon from 'ns-joycon';
+
+const { joyconDevices } = JoyCon.findDevices();
+const joycons = joyconDevices.map((device) => ({
+  device,
+  hid: JoyCon.convertToHumanInterfaceDevice(device),
+}));
+
+joycons.forEach(({ device, hid }) => {
+  JoyCon.addJoyConHandler(hid, (packet) => {
+    console.log(JSON.stringify(packet, null, 2));
+  });
+  JoyCon.enableJoyConIMU(hid);
+});
 ```
 
 ### Tests
