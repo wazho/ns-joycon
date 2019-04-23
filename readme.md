@@ -2,6 +2,10 @@ This project is an implementation from [dekuNukem/Nintendo_Switch_Reverse_Engine
 
 This package parses buffer stream from HID, and extracts the data from accelerometer, gyroscope.
 
+---
+
+![Node Limitation](https://img.shields.io/node/v/ns-joycon.svg) [![Build Status](https://travis-ci.org/wazho/ns-joycon.svg?branch=master)](https://travis-ci.org/wazho/ns-joycon) [![Package Downloads](https://img.shields.io/npm/dm/ns-joycon.svg)](https://www.npmjs.com/package/ns-joycon)
+
 ## Quick start
 
 ### Installation
@@ -41,6 +45,8 @@ joycons.forEach((device) => {
 npm test
 ```
 
+---
+
 ## APIs
 
 ### `JoyCon.findControllers()`
@@ -64,6 +70,7 @@ npm test
 * Disable inertial measurement unit (IMU).
 * Return a *promise*.
 
+---
 
 ## Extracted data
 
