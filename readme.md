@@ -48,7 +48,7 @@ npm test
 * Find controllers that are detected.
 * Return device sets : `{ joycons, proControllers }`
 
-### `device.addJoyConHandler(callback)`
+### `device.addHandler(callback)`
 
 * Add a handler to process packet data.
 * `callback` is of the form `callback(data)`
