@@ -20,7 +20,7 @@ const JoyCon = __importStar(require("./index"));
 const { joycons } = JoyCon.findControllers();
 joycons.forEach((device) => __awaiter(this, void 0, void 0, function* () {
     device.addHandler((packet) => {
-        console.log(device.meta.product, packet.inputReportID);
+        console.log(device.meta.product, packet);
     });
     yield device.enableIMU();
 }));

@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // Node modules.
-const lodash_1 = __importDefault(require("lodash"));
+const mean_1 = __importDefault(require("lodash/mean"));
 function calculateBatteryLevel(value) {
     let level;
     switch (value) {
@@ -310,9 +310,9 @@ exports.parseGyroscopes = parseGyroscopes;
 function calculateActualAccelerometer(accelerometers) {
     const elapsedTime = 0.005 * accelerometers.length; // Spent 5ms to collect each data.
     const actualAccelerometer = {
-        x: parseFloat((lodash_1.default.mean(accelerometers.map(g => g[0])) * elapsedTime).toFixed(6)),
-        y: parseFloat((lodash_1.default.mean(accelerometers.map(g => g[1])) * elapsedTime).toFixed(6)),
-        z: parseFloat((lodash_1.default.mean(accelerometers.map(g => g[2])) * elapsedTime).toFixed(6)),
+        x: parseFloat((mean_1.default(accelerometers.map(g => g[0])) * elapsedTime).toFixed(6)),
+        y: parseFloat((mean_1.default(accelerometers.map(g => g[1])) * elapsedTime).toFixed(6)),
+        z: parseFloat((mean_1.default(accelerometers.map(g => g[2])) * elapsedTime).toFixed(6)),
     };
     return actualAccelerometer;
 }
@@ -320,9 +320,9 @@ exports.calculateActualAccelerometer = calculateActualAccelerometer;
 function calculateActualGyroscope(gyroscopes) {
     const elapsedTime = 0.005 * gyroscopes.length; // Spent 5ms to collect each data.
     const actualGyroscopes = [
-        lodash_1.default.mean(gyroscopes.map(g => g[0])),
-        lodash_1.default.mean(gyroscopes.map(g => g[1])),
-        lodash_1.default.mean(gyroscopes.map(g => g[2])),
+        mean_1.default(gyroscopes.map(g => g[0])),
+        mean_1.default(gyroscopes.map(g => g[1])),
+        mean_1.default(gyroscopes.map(g => g[2])),
     ].map(v => parseFloat((v * elapsedTime).toFixed(6)));
     return actualGyroscopes;
 }

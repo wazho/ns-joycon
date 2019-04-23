@@ -1,5 +1,4 @@
 // Node modules.
-import _ from 'lodash';
 import { HID, Device, devices as findDevices } from 'node-hid';
 import { IInputReport0x3f, IInputReport0x21, IInputReport0x30, InputReport } from './models/';
 // Local modules.

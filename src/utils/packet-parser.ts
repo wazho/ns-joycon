@@ -1,5 +1,5 @@
 // Node modules.
-import _ from 'lodash';
+import mean from 'lodash/mean';
 // Local modules.
 import { BatteryLevel } from '../models/';
 
@@ -329,9 +329,9 @@ export function calculateActualAccelerometer(accelerometers: number[][]) {
     const elapsedTime = 0.005 * accelerometers.length; // Spent 5ms to collect each data.
 
     const actualAccelerometer = {
-        x: parseFloat((_.mean(accelerometers.map(g => g[0])) * elapsedTime).toFixed(6)),
-        y: parseFloat((_.mean(accelerometers.map(g => g[1])) * elapsedTime).toFixed(6)),
-        z: parseFloat((_.mean(accelerometers.map(g => g[2])) * elapsedTime).toFixed(6)),
+        x: parseFloat((mean(accelerometers.map(g => g[0])) * elapsedTime).toFixed(6)),
+        y: parseFloat((mean(accelerometers.map(g => g[1])) * elapsedTime).toFixed(6)),
+        z: parseFloat((mean(accelerometers.map(g => g[2])) * elapsedTime).toFixed(6)),
     };
 
     return actualAccelerometer;
@@ -341,9 +341,9 @@ export function calculateActualGyroscope(gyroscopes: number[][]) {
     const elapsedTime = 0.005 * gyroscopes.length; // Spent 5ms to collect each data.
 
     const actualGyroscopes = [
-        _.mean(gyroscopes.map(g => g[0])),
-        _.mean(gyroscopes.map(g => g[1])),
-        _.mean(gyroscopes.map(g => g[2])),
+        mean(gyroscopes.map(g => g[0])),
+        mean(gyroscopes.map(g => g[1])),
+        mean(gyroscopes.map(g => g[2])),
     ].map(v => parseFloat((v * elapsedTime).toFixed(6)));
 
     return actualGyroscopes;

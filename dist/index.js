@@ -15,6 +15,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+// Node modules.
 const node_hid_1 = require("node-hid");
 // Local modules.
 const PacketParser = __importStar(require("./utils/packet-parser"));
