@@ -8,28 +8,30 @@ This package parses buffer stream from HID, and extracts the data from accelerom
 
 ```shell
 npm install ns-joycon
+# If you encounter some problems when `npm install ns-joycon`.
+npm install ns-joycon --unsafe-perm
 ```
+
+### DEMO
+
+Checkout the demo project at [wazho/ns-joycon-showcases](https://github.com/wazho/ns-joycon-showcases).
 
 ### Usage
 
 Connect your Joy-Con(s) using bluetooth with PC (currently Linux only).
 
-And then execute program below.
+And then execute program by administrator below (root can access hardware).
 
 ```typescript
-import * as JoyCon from 'ns-joycon';
+import * as JoyCon from './index';
 
-const { joyconDevices } = JoyCon.findDevices();
-const joycons = joyconDevices.map((device) => ({
-  device,
-  hid: JoyCon.convertToHumanInterfaceDevice(device),
-}));
+const { joycons } = JoyCon.findControllers();
 
-joycons.forEach(({ device, hid }) => {
-  JoyCon.addJoyConHandler(hid, (packet) => {
-    console.log(JSON.stringify(packet, null, 2));
+joycons.forEach((device) => {
+  device.addHandler((packet) => {
+    console.log(device.meta.product, packet);
   });
-  JoyCon.enableJoyConIMU(hid);
+  device.enableIMU();
 });
 ```
 
@@ -38,6 +40,30 @@ joycons.forEach(({ device, hid }) => {
 ```shell
 npm test
 ```
+
+## APIs
+
+### `JoyCon.findControllers()`
+
+* Find controllers that are detected.
+* Return device sets : `{ joycons, proControllers }`
+
+### `device.addJoyConHandler(callback)`
+
+* Add a handler to process packet data.
+* `callback` is of the form `callback(data)`
+
+### `device.enableIMU()`
+
+* Enable inertial measurement unit (IMU).
+* Return a *promise*.
+* After this script, controller will send **Input Report 0x30** per 15 ms.
+
+### `device.disableIMU()`
+
+* Disable inertial measurement unit (IMU).
+* Return a *promise*.
+
 
 ## Extracted data
 

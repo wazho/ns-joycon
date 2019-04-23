@@ -1,4 +1,12 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -9,15 +17,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // Local modules.
 const JoyCon = __importStar(require("./index"));
-const { joyconDevices } = JoyCon.findDevices();
-const joycons = joyconDevices.map((device) => ({
-    device,
-    hid: JoyCon.convertToHumanInterfaceDevice(device),
-}));
-joycons.forEach(({ device, hid }) => {
-    JoyCon.addJoyConHandler(hid, (packet) => {
-        console.log(JSON.stringify(packet, null, 2));
+const { joycons } = JoyCon.findControllers();
+joycons.forEach((device) => __awaiter(this, void 0, void 0, function* () {
+    device.addHandler((packet) => {
+        console.log(device.meta.product, packet.inputReportID);
     });
-    JoyCon.enableJoyConIMU(hid);
-});
+    yield device.enableIMU();
+}));
 //# sourceMappingURL=sample.js.map

@@ -1,15 +1,11 @@
 // Local modules.
 import * as JoyCon from './index';
 
-const { joyconDevices } = JoyCon.findDevices();
-const joycons = joyconDevices.map((device) => ({
-    device,
-    hid: JoyCon.convertToHumanInterfaceDevice(device),
-}));
+const { joycons } = JoyCon.findControllers();
 
-joycons.forEach(({ device, hid }) => {
-    JoyCon.addJoyConHandler(hid, (packet) => {
-        console.log(JSON.stringify(packet, null, 2));
+joycons.forEach(async (device) => {
+    device.addHandler((packet) => {
+        console.log(device.meta.product, packet.inputReportID);
     });
-    JoyCon.enableJoyConIMU(hid);
+    await device.enableIMU();
 });
