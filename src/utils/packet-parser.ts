@@ -191,13 +191,22 @@ export function parseAck(rawData: Buffer, data: RegExpMatchArray) {
     return ack;
 }
 
-export function parseReplySubcommand(rawData: Buffer, data: RegExpMatchArray) {
-    const replySubcommand = {
+export function parseSubcommandID(rawData: Buffer, data: RegExpMatchArray) {
+    const subcommandID = {
         _raw: rawData.slice(14, 15), // index 14
         _hex: data.slice(14, 15),
     };
 
-    return replySubcommand;
+    return subcommandID;
+}
+
+export function parseSubcommandReplyData(rawData: Buffer, data: RegExpMatchArray) {
+    const subcommandReplyData = {
+        _raw: rawData.slice(15), // index 15 ~
+        _hex: data.slice(15),
+    };
+
+    return subcommandReplyData;
 }
 
 export function parseAccelerometers(rawData: Buffer, data: RegExpMatchArray) {

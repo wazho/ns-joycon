@@ -27,15 +27,16 @@ Connect your Joy-Con(s) using bluetooth with PC (currently Linux only).
 And then execute program by administrator below (root can access hardware).
 
 ```typescript
-import * as JoyCon from './index';
+const JoyCon = require('ns-joycon');    // JavaScript
+// import * as JoyCon from 'ns-joycon'; // TypeScript or Babel
 
 const { joycons } = JoyCon.findControllers();
 
-joycons.forEach((device) => {
-  device.addHandler((packet) => {
+joycons.forEach(async (device) => {
+  device.manageHandler('add', (packet) => {
     console.log(device.meta.product, packet);
   });
-  device.enableIMU();
+  await device.enableIMU();
 });
 ```
 
@@ -54,9 +55,10 @@ npm test
 * Find controllers that are detected.
 * Return device sets : `{ joycons, proControllers }`
 
-### `device.addHandler(callback)`
+### `device.manageHandler(action, callback)`
 
 * Add a handler to process packet data.
+* `action` is `add | remove`
 * `callback` is of the form `callback(data)`
 
 ### `device.enableIMU()`

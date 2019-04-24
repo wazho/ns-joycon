@@ -1,5 +1,6 @@
 import { Device } from 'node-hid';
 import { InputReport } from './models/';
+import { IDeviceInfo } from './models/subcommand';
 declare class NsSwitchHID {
     private vendorId;
     private productId;
@@ -9,6 +10,7 @@ declare class NsSwitchHID {
     private path?;
     private usage?;
     private hid;
+    private listeners;
     constructor(device: Device);
     readonly meta: {
         vendorId: number;
@@ -19,9 +21,13 @@ declare class NsSwitchHID {
         usage: number | undefined;
     };
     /**
-     * Add a handler to recevice packets when device send streaming data.
+     * Add / remove a handler to recevice packets when device send streaming data.
      */
-    addHandler(callback: (packet: InputReport) => void): void;
+    manageHandler(action: 'add' | 'remove', callback: (packet: InputReport) => void): void;
+    /**
+     * Request device info to Jon-Con.
+     */
+    requestDeviceInfo(): Promise<IDeviceInfo | undefined>;
     /**
      * Enable IMU data will make Jon-Con sends **Input Report 0x30**.
      */
@@ -30,7 +36,15 @@ declare class NsSwitchHID {
      * Disable IMU data will cancel Jon-Con to send **Input Report 0x30**.
      */
     disableIMU(): Promise<void>;
-    private inputReport21Promise;
+    /**
+     * Enable Jon-Con's vibration.
+     */
+    enableVibration(): Promise<void>;
+    /**
+     * Disable Jon-Con's vibration.
+     */
+    disableVibration(): Promise<void>;
+    private activateJoyConStream;
 }
 export declare function findControllers(): {
     joycons: NsSwitchHID[];

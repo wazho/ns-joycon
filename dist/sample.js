@@ -19,9 +19,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const JoyCon = __importStar(require("./index"));
 const { joycons } = JoyCon.findControllers();
 joycons.forEach((device) => __awaiter(this, void 0, void 0, function* () {
-    device.addHandler((packet) => {
+    device.manageHandler('add', (packet) => {
         console.log(device.meta.product, packet);
     });
+    // const deviceInfo = await device.requestDeviceInfo();
     yield device.enableIMU();
+    // await device.disableIMU();
+    // await device.enableVibration();
+    // await device.disableVibration();
 }));
 //# sourceMappingURL=sample.js.map
