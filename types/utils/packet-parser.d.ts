@@ -74,7 +74,11 @@ export declare function parseAck(rawData: Buffer, data: RegExpMatchArray): {
     _raw: Buffer;
     _hex: string[];
 };
-export declare function parseReplySubcommand(rawData: Buffer, data: RegExpMatchArray): {
+export declare function parseSubcommandID(rawData: Buffer, data: RegExpMatchArray): {
+    _raw: Buffer;
+    _hex: string[];
+};
+export declare function parseSubcommandReplyData(rawData: Buffer, data: RegExpMatchArray): {
     _raw: Buffer;
     _hex: string[];
 };

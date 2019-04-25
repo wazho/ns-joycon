@@ -176,14 +176,22 @@ function parseAck(rawData, data) {
     return ack;
 }
 exports.parseAck = parseAck;
-function parseReplySubcommand(rawData, data) {
-    const replySubcommand = {
+function parseSubcommandID(rawData, data) {
+    const subcommandID = {
         _raw: rawData.slice(14, 15),
         _hex: data.slice(14, 15),
     };
-    return replySubcommand;
+    return subcommandID;
 }
-exports.parseReplySubcommand = parseReplySubcommand;
+exports.parseSubcommandID = parseSubcommandID;
+function parseSubcommandReplyData(rawData, data) {
+    const subcommandReplyData = {
+        _raw: rawData.slice(15),
+        _hex: data.slice(15),
+    };
+    return subcommandReplyData;
+}
+exports.parseSubcommandReplyData = parseSubcommandReplyData;
 function parseAccelerometers(rawData, data) {
     const accelerometers = [
         {

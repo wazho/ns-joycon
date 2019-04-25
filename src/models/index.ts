@@ -66,7 +66,8 @@ export type Gyroscope = Array<IPacketBuffer & {
 
 export interface IInputReport0x21 extends IStandardInputReport {
     ack: IPacketBuffer;
-    replySubcommand: IPacketBuffer;
+    subcommandID: IPacketBuffer;
+    subcommandReplyData: IPacketBuffer;
 };
 
 export interface IInputReport0x30 extends IStandardInputReport {

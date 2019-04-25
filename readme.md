@@ -1,10 +1,16 @@
+# **ns-joycon** - Bridge between Joy-Con and Node.js
+
+<center>
+<img src="./assets/logo.png" width="125" height="125" />
+
+**ns-joycon** controls buffer stream by HID, and extracts the data from accelerometer, gyroscope and HD Rumble.
+
 This project is an implementation from [dekuNukem/Nintendo_Switch_Reverse_Engineering](https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering) by Node.js.
 
-This package parses buffer stream from HID, and extracts the data from accelerometer, gyroscope.
+![Node Limitation](https://img.shields.io/node/v/ns-joycon.svg) [![Build Status](https://travis-ci.org/wazho/ns-joycon.svg?branch=master)](https://travis-ci.org/wazho/ns-joycon) [![Package Downloads](https://img.shields.io/npm/dm/ns-joycon.svg)](https://www.npmjs.com/package/ns-joycon)
+</center>
 
 ---
-
-![Node Limitation](https://img.shields.io/node/v/ns-joycon.svg) [![Build Status](https://travis-ci.org/wazho/ns-joycon.svg?branch=master)](https://travis-ci.org/wazho/ns-joycon) [![Package Downloads](https://img.shields.io/npm/dm/ns-joycon.svg)](https://www.npmjs.com/package/ns-joycon)
 
 ## Quick start
 
@@ -27,15 +33,16 @@ Connect your Joy-Con(s) using bluetooth with PC (currently Linux only).
 And then execute program by administrator below (root can access hardware).
 
 ```typescript
-import * as JoyCon from './index';
+const JoyCon = require('ns-joycon');    // JavaScript
+// import * as JoyCon from 'ns-joycon'; // TypeScript or Babel
 
 const { joycons } = JoyCon.findControllers();
 
-joycons.forEach((device) => {
-  device.addHandler((packet) => {
+joycons.forEach(async (device) => {
+  device.manageHandler('add', (packet) => {
     console.log(device.meta.product, packet);
   });
-  device.enableIMU();
+  await device.enableIMU();
 });
 ```
 
@@ -49,26 +56,65 @@ npm test
 
 ## APIs
 
-### `JoyCon.findControllers()`
+### **JoyCon.findControllers()**
 
-* Find controllers that are detected.
-* Return device sets : `{ joycons, proControllers }`
+  Find controllers that are detected.
 
-### `device.addHandler(callback)`
+* **Return value**
 
-* Add a handler to process packet data.
-* `callback` is of the form `callback(data)`
+  `{ joycons, proControllers }`
 
-### `device.enableIMU()`
+### **device.manageHandler(action, callback)**
 
-* Enable inertial measurement unit (IMU).
-* Return a *promise*.
-* After this script, controller will send **Input Report 0x30** per 15 ms.
+  Add a handler to process packet data.
 
-### `device.disableIMU()`
+* **Arguments**
 
-* Disable inertial measurement unit (IMU).
-* Return a *promise*.
+  `action` is `add | remove`
+
+  `callback` is of the form `callback(data)`
+
+### **device.requestDeviceInfo()**
+
+  Request Joy-Con to provide its device info.
+
+* **Return value**
+
+  `Promise<DeviceInfo>` is `{ firmwareVersion, type, macAddress, spiColorInUsed }`
+
+### **device.enableIMU()**
+
+  Enable inertial measurement unit (IMU).
+
+  After this script, controller will send **Input Report 0x30** per 15 ms.
+
+* **Return value**
+
+  `Promise<void>`
+
+### **device.disableIMU()**
+
+  Disable inertial measurement unit (IMU).
+
+* **Return value**
+
+  `Promise<void>`
+
+### **device.enableVibration()**
+
+  Enable vibration for a while.
+
+* **Return value**
+
+  `Promise<void>`
+
+### **device.disableVibration()**
+
+  Disable vibration in immediately.
+
+* **Return value**
+
+  `Promise<void>`
 
 ---
 
