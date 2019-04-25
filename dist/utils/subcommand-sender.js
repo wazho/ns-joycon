@@ -115,8 +115,8 @@ function enableVibration(hid, manageHandler, enable) {
         ? [0x48, 0x01]
         : [0x48, 0x00];
     console.log(subcommand);
-    // TODO: Control the vibration here.
-    hid.write([outputReportID, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, ...subcommand]);
+    // TODO: Make more rumble styles in future.
+    hid.write([outputReportID, 0x00, 0x01, 0x40, 0x40, 0x00, 0x01, 0x40, 0x40, 0x00, ...subcommand]);
     return new Promise((resolve) => {
         const handler = (packet) => {
             const { inputReportID, subcommandID } = packet;
