@@ -128,7 +128,6 @@ export function enableVibration(hid: HID, manageHandler: Function, enable: boole
     const subcommand = enable
         ? [0x48, 0x01]
         : [0x48, 0x00];
-        console.log(subcommand);
     // TODO: Make more rumble styles in future.
     hid.write([outputReportID, 0x00, 0x01, 0x40, 0x40, 0x00, 0x01, 0x40, 0x40, 0x00, ...subcommand]);
 

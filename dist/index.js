@@ -54,6 +54,7 @@ class NsSwitchHID {
             productId: this.productId,
             serialNumber: this.serialNumber,
             product: this.product,
+            type: this.type,
             path: this.path,
             usage: this.usage,
         };
@@ -166,26 +167,33 @@ class NsSwitchHID {
                 // Broadcast.
                 this.listeners.forEach((listener) => listener(packet));
             });
-            this.hid.on('error', (data) => {
-                throw new Error(data);
+            this.hid.on('error', (error) => {
+                console.warn(Object.assign({}, this.meta, { error }));
             });
         });
     }
 }
-function findControllers() {
-    const joycons = [];
-    const proControllers = [];
-    const devices = node_hid_1.devices().reduce((prev, d) => {
-        // Products: ['Pro Controller', 'Joy-Con (L)', 'Joy-Con (R)']
-        if (d.product && d.product.includes('Pro Controller')) {
-            prev.proControllers.push(new NsSwitchHID(d));
-        }
-        else if (d.product && d.product.includes('Joy-Con')) {
-            prev.joycons.push(new NsSwitchHID(d));
-        }
-        return prev;
-    }, { joycons, proControllers });
-    return devices;
+function findControllers(callback) {
+    let deviceList = new Set();
+    const work = () => {
+        const tempDeviceList = new Set();
+        const devices = node_hid_1.devices().reduce((prev, d) => {
+            if (getType(d.product) !== 'unknown') {
+                prev.push(new NsSwitchHID(d));
+            }
+            return prev;
+        }, []);
+        devices.forEach((d) => {
+            const distinctId = `${d.meta.vendorId},${d.meta.productId},${d.meta.type}`;
+            tempDeviceList.add(distinctId);
+            if (!deviceList.has(distinctId)) {
+                callback(devices);
+            }
+        });
+        deviceList = tempDeviceList;
+    };
+    work();
+    setInterval(work, 1000);
 }
 exports.findControllers = findControllers;
 //# sourceMappingURL=index.js.map

@@ -53,6 +53,7 @@ class NsSwitchHID {
             productId: this.productId,
             serialNumber: this.serialNumber,
             product: this.product,
+            type: this.type,
             path: this.path,
             usage: this.usage,
         };
@@ -196,26 +197,40 @@ class NsSwitchHID {
             this.listeners.forEach((listener) => listener(packet as InputReport));
         });
 
-        this.hid.on('error', (data) => {
-            throw new Error(data);
+        this.hid.on('error', (error) => {
+            console.warn({
+                ...this.meta,
+                error,
+            });
         });
     }
 }
 
-export function findControllers() {
-    const joycons: NsSwitchHID[] = [];
-    const proControllers: NsSwitchHID[] = [];
+export function findControllers(callback: (controllers: NsSwitchHID[]) => void) {
+    let deviceList = new Set();
 
-    const devices = findDevices().reduce((prev, d) => {
-        // Products: ['Pro Controller', 'Joy-Con (L)', 'Joy-Con (R)']
-        if (d.product && d.product.includes('Pro Controller')) {
-            prev.proControllers.push(new NsSwitchHID(d));
-        } else if (d.product && d.product.includes('Joy-Con')) {
-            prev.joycons.push(new NsSwitchHID(d));
-        }
+    const work = () => {
+        const tempDeviceList = new Set();
+        const devices = findDevices().reduce((prev, d) => {
+            if (getType(d.product) !== 'unknown') {
+                prev.push(new NsSwitchHID(d));
+            }
 
-        return prev;
-    }, { joycons, proControllers });
+            return prev;
+        }, [] as NsSwitchHID[]);
 
-    return devices;
+        devices.forEach((d) => {
+            const distinctId = `${d.meta.vendorId},${d.meta.productId},${d.meta.type}`;
+            tempDeviceList.add(distinctId);
+
+            if (!deviceList.has(distinctId)) {
+                callback(devices);
+            }
+        });
+
+        deviceList = tempDeviceList;
+    };
+
+    work();
+    setInterval(work, 1000);
 }

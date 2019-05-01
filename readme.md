@@ -1,14 +1,14 @@
 # **ns-joycon** - Bridge between Joy-Con and Node.js
 
-<center>
-<img src="./assets/logo.png" width="125" height="125" />
+<p align="center">
+  <img src="./assets/logo.png" width="125" height="125" />
+</p>
 
 **ns-joycon** controls buffer stream by HID, and extracts the data from accelerometer, gyroscope and HD Rumble.
 
 This project is an implementation from [dekuNukem/Nintendo_Switch_Reverse_Engineering](https://github.com/dekuNukem/Nintendo_Switch_Reverse_Engineering) by Node.js.
 
 ![Node Limitation](https://img.shields.io/node/v/ns-joycon.svg) [![Build Status](https://travis-ci.org/wazho/ns-joycon.svg?branch=master)](https://travis-ci.org/wazho/ns-joycon) [![Package Downloads](https://img.shields.io/npm/dm/ns-joycon.svg)](https://www.npmjs.com/package/ns-joycon)
-</center>
 
 ---
 
@@ -36,13 +36,16 @@ And then execute program by administrator below (root can access hardware).
 const JoyCon = require('ns-joycon');    // JavaScript
 // import * as JoyCon from 'ns-joycon'; // TypeScript or Babel
 
-const { joycons } = JoyCon.findControllers();
-
-joycons.forEach(async (device) => {
-  device.manageHandler('add', (packet) => {
-    console.log(device.meta.product, packet);
+JoyCon.findControllers((devices) => {
+  // When found any device.
+  devices.forEach(async (device) => {
+    console.log(`Found a device (${device.meta.serialNumber})`);
+    // Add a handler for new device.
+    device.manageHandler('add', (packet) => {
+        console.log(device.meta.product, packet);
+    });
+    await device.enableIMU();
   });
-  await device.enableIMU();
 });
 ```
 
@@ -56,13 +59,13 @@ npm test
 
 ## APIs
 
-### **JoyCon.findControllers()**
+### **JoyCon.findControllers(callback)**
 
   Find controllers that are detected.
 
-* **Return value**
+* **Arguments**
 
-  `{ joycons, proControllers }`
+  `callback` is of the form `callback(devices)`
 
 ### **device.manageHandler(action, callback)**
 

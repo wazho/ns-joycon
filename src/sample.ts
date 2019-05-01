@@ -1,15 +1,20 @@
 // Local modules.
 import * as JoyCon from './index';
 
-const { joycons } = JoyCon.findControllers();
+JoyCon.findControllers((devices) => {
+    // When found any device.
+    devices.forEach(async (device) => {
+        console.log(`Found a device (${device.meta.serialNumber})`);
 
-joycons.forEach(async (device) => {
-    device.manageHandler('add', (packet) => {
-        console.log(device.meta.product, packet);
+        // Add a handler for new device.
+        device.manageHandler('add', (packet) => {
+            console.log(device.meta.product, packet);
+        });
+
+        // const deviceInfo = await device.requestDeviceInfo();
+        await device.enableIMU();
+        // await device.disableIMU();
+        // await device.enableVibration();
+        // await device.disableVibration();
     });
-    // const deviceInfo = await device.requestDeviceInfo();
-    await device.enableIMU();
-    // await device.disableIMU();
-    // await device.enableVibration();
-    // await device.disableVibration();
 });

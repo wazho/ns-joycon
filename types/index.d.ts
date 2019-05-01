@@ -17,6 +17,7 @@ declare class NsSwitchHID {
         productId: number;
         serialNumber: string | undefined;
         product: string | undefined;
+        type: "unknown" | "pro-controller" | "joy-con";
         path: string | undefined;
         usage: number | undefined;
     };
@@ -46,8 +47,5 @@ declare class NsSwitchHID {
     disableVibration(): Promise<void>;
     private activateJoyConStream;
 }
-export declare function findControllers(): {
-    joycons: NsSwitchHID[];
-    proControllers: NsSwitchHID[];
-};
+export declare function findControllers(callback: (controllers: NsSwitchHID[]) => void): void;
 export {};
